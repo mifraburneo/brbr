@@ -29,6 +29,7 @@ rm -rf ~/.local/share/navi/cheats/*
 
 ### Adding repo to navi
 ```
-navi repo add https://github.com/mifraburneo/cheats
+cd ~/.local/share/navi/cheats
+git clone https://github.com/mifraburneo/cheats
 ```
 
