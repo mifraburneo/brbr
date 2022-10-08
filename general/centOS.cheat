@@ -1,0 +1,6 @@
+% CentOS CheatSheet
+
+# Update CentOS Time
+yum install ntp && \
+chkconfig ntpd on && \
+ntpdate time.apple.com
