@@ -12,14 +12,19 @@ Original navi repo: https://github.com/denisidoro/navi
 ```
 #### In Linux installs do:
 ```
-echo '# Set PATH, MANPATH, etc., for Homebrew.' >> /home/x/.profile
-echo 'eval "$(/home/x/.linuxbrew/bin/brew shellenv)"' >> /home/x/.profile
-eval "$(/home/x/.linuxbrew/bin/brew shellenv)"
+echo '# Set PATH, MANPATH, etc., for Homebrew.' >> ~/.profile
+echo 'eval "$(~/.linuxbrew/bin/brew shellenv)"' >> ~/.profile
+eval "$(~/.linuxbrew/bin/brew shellenv)"
 ```
 ### Installing navi
 
 ```
 brew install navi
+```
+
+#### Optional: Remove default cheats
+```
+rm -rf ~/.local/share/navi/cheats/*
 ```
 
 ### Adding repo to navi
