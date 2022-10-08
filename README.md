@@ -20,5 +20,5 @@ brew install navi
 ### Adding repo to navi
 ```
 navi repo add https://github.com/mifraburneo/cheats
-
+```
 
