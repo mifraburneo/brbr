@@ -56,12 +56,16 @@ if [ "$(uname)" == "Linux" ]; then
     sed -i 's/BaseDirs::new().ok_or_else(|| anyhow!("Unable to get base dirs"))?;/"\/opt\/brbr";/g' navi_repo/src/filesystem.rs
     sed -i 's/base_dirs.data_dir()/base_dirs/g' navi_repo/src/filesystem.rs
     sed -i 's/base_dirs.config_dir()/base_dirs/g' navi_repo/src/filesystem.rs
+    sed -i 's/pathbuf.push("config.yaml");/pathbuf.push("config\/config.yaml");/g' navi_repo/src/filesystem.rs
+    sed -i 's/pathbuf.push("navi");//g' navi_repo/src/filesystem.rs
 # If OS is MacOS
 elif [ "$(uname)" == "Darwin" ]; then
     # Modifiy navi_repo/src/filesystem.rs
     sed -i '' 's/BaseDirs::new().ok_or_else(|| anyhow!("Unable to get base dirs"))?;/"\/opt\/brbr";/g' navi_repo/src/filesystem.rs
     sed -i '' 's/base_dirs.data_dir()/base_dirs/g' navi_repo/src/filesystem.rs
     sed -i '' 's/base_dirs.config_dir()/base_dirs/g' navi_repo/src/filesystem.rs
+    sed -i '' 's/pathbuf.push("config.yaml");/pathbuf.push("config\/config.yaml");/g' navi_repo/src/filesystem.rs
+    sed -i '' 's/pathbuf.push("navi");//g' navi_repo/src/filesystem.rs
 fi
 
 cd navi_repo
