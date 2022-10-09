@@ -122,6 +122,17 @@ if [[ $INSTALL -eq "1" ]]; then
     fi
 
 fi
+
+# Uninstall
+if [[ $UNINSTALL -eq "1" ]]; then
+
+    # Remove symbolic link
+    rm -f "$BIN_DIR/brbr"
+    rm -f "$BIN_DIR/fzf"
+
+    # Remove directory
+    rm -rf "$INSTALL_DIR"
+fi
     
 
 
