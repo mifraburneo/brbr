@@ -1,35 +1,26 @@
 # BrBr
-Bash cheatsheets aimed for navi.
+Custom bash cheatsheets "private" repo.
 
-Original navi repo: https://github.com/denisidoro/navi
+Created with [navi](https://github.com/denisidoro/navi) and [fzf](https://github.com/junegunn/fzf).
 
 ---------------------
 
-### Installing HomeBrew
+### Installation
+
+Currently only supports Linux.
+
+##### 1. Clone repo
 
 ```
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-```
-#### In Linux installs do:
-```
-echo '# Set PATH, MANPATH, etc., for Homebrew.' >> ~/.profile
-echo 'eval "$(~/.linuxbrew/bin/brew shellenv)"' >> ~/.profile
-eval "$(~/.linuxbrew/bin/brew shellenv)"
-```
-### Installing navi
-
-```
-brew install navi
+cd /opt/
+git clone https://github.com/mifraburneo/brbr
 ```
 
-#### Optional: Remove default cheats
-```
-rm -rf ~/.local/share/navi/cheats/*
-```
+##### 2. Execute installation script
 
-### Adding repo to navi
 ```
-cd ~/.local/share/navi/cheats
-git clone https://github.com/mifraburneo/cheats
+cd brbr/installation
+./install.sh --install
+
 ```
 
