@@ -116,6 +116,7 @@ if [[ $INSTALL -eq "1" ]]; then
     if [ "$(uname)" == "Linux" ]; then
     mkdir -p "$INSTALL_DIR/navi/bin"
     cp bins/navi-linux "$INSTALL_DIR/navi/bin/navi"
+    chmod 754 "$INSTALL_DIR/navi/bin/navi"
 
     # Create symbolic link
     ln -s "$INSTALL_DIR/navi/bin/navi" "$BIN_DIR/brbr"
