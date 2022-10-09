@@ -16,12 +16,10 @@ while [ $# -gt 0 ]; do
   case "$1" in
     -i | --install)
       INSTALL="1"
-      echo "Installing brbr..."
-      shift ;;
+      echo "Installing brbr..." ;;
     -u | --uninstall)
       UNINSTALL="1"
-      echo "Uninstalling brbr..."
-      shift ;;
+      echo "Uninstalling brbr..." ;;
     -h | --help)
       cat << EOF
         Usage: $0 -i | --install -u | --uninstall -help
@@ -35,7 +33,6 @@ EOF
         echo "Try '$0 -h' for more information."
         exit 1 ;;
     esac
-    shift
 done
 
 # Install
