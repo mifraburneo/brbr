@@ -1,0 +1,7 @@
+[build]
+target = ["x86_64-unknown-linux-gnu", "i686-unknown-linux-gnu"]
+
+[env]
+CARGO_TARGET_DIR = "bins"
+NAVI_PATH = "/opt/brbr/navi/cheats"
+NAVI_CONFIG = "opt/brbr/navi/config"
