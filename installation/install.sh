@@ -13,10 +13,10 @@ while getopts ":h:i:u" opt; do
       exit 1 ;;
     exec)
         echo "Installing..."
-        INSTALL=1 ;;
+        INSTALL="1" ;;
     uninstall)
         echo "Uninstalling..."
-        INSTALL=0 ;;
+        INSTALL="0" ;;
     \?)
       echo "Invalid option: -$OPTARG" >&2
       exit 1 ;;
@@ -28,7 +28,7 @@ done
 
 
 # Install
-if [ $INSTALL == "1" ]; then
+if [ $INSTALL -eq "1" ]; then
 
     # Check if the directory already exists
     if [ -d "$INSTALL_DIR" ]; then
