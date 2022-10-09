@@ -47,7 +47,7 @@ fn compiled_default_path(path: Option<&str>) -> Option<PathBuf> {
 
 pub fn default_cheat_pathbuf() -> Result<PathBuf> {
     let base_dirs = "/opt/brbr/navi";
-    let mut pathbuf = PathBuf::from(base_dirs.data_dir());
+    let mut pathbuf = PathBuf::from(base_dirs);
     pathbuf.push("navi");
     pathbuf.push("cheats");
     if !pathbuf.exists() {
