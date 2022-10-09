@@ -1,4 +1,4 @@
 % Brbr
 
 # Update cheats repo.
-cd /opt/brbr/ && git fetch --all && git checkout master -- /opt/brbr/cheats && git checkout master -- /opt/brbr/config
+cd /opt/brbr/ && git fetch --all && git checkout main -- /opt/brbr/cheats && git checkout main -- /opt/brbr/config
