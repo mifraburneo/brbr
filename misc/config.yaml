@@ -13,5 +13,5 @@ style:
 
 finder:
 #  command: fzf # equivalent to the --finder option
-  overrides: --height 50% --nth 1,2 --with-nth 1,2 # equivalent to the --fzf-overrides option
-  overrides_var: --height 50% # equivalent to the --fzf-overrides-var option
+  overrides: --nth 1,2 --with-nth 1,2 --layout=reverse --header-lines=6 # equivalent to the --fzf-overrides option (ex --height 50%)
+  overrides_var: # equivalent to the --fzf-overrides-var option (ex --height 50%)
