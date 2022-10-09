@@ -9,12 +9,12 @@ BIN_DIR="/usr/local/bin"
 while getopts ":h:i:u" opt; do
   case $opt in
     h)
-      echo "Usage: $0 [-i] or [-u]" 1>&2
+      echo "Usage: $0 [exec] or [uninstall]" 1>&2
       exit 1 ;;
-    i)
+    exec)
         echo "Installing..."
         INSTALL=1 ;;
-    u)
+    uninstall)
         echo "Uninstalling..."
         INSTALL=0 ;;
     \?)
@@ -28,7 +28,7 @@ done
 
 
 # Install
-if [ $INSTALL -eq 1 ]; then
+if [ $INSTALL -eq "1" ]; then
 
     # Check if the directory already exists
     if [ -d "$INSTALL_DIR" ]; then
@@ -107,7 +107,7 @@ if [ $INSTALL -eq 1 ]; then
     if [ "$(uname)" == "Linux" ]; then
     mkdir -p "$INSTALL_DIR/navi/bin"
     cp bins/navi-linux "$INSTALL_DIR/navi/bin/navi"
-    
+
     # Create symbolic link
     ln -s "$INSTALL_DIR/navi/bin/navi" "$BIN_DIR/brbr"
     fi
