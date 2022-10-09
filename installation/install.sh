@@ -136,7 +136,7 @@ fi
 if [[ $UNINSTALL -eq "1" ]]; then
 
     # Remove symbolic link
-    rm -f "$BIN_DIR/navi"
+    rm -f "$BIN_DIR/brbr"
     rm -f "$BIN_DIR/fzf"
 
     # Remove directory
