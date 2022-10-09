@@ -111,11 +111,11 @@ mkdir bins
 
 for os in "${OS[@]}"; do
     if [ "$os" == "linux" ]; then
-        mv navi_repo/target/x86_64-unknown-linux-musl/debug/navi bins/navi_linux
+        mv navi_repo/target/x86_64-unknown-linux-musl/debug/navi bins/navi-linux
     elif [ "$os" == "macos" ]; then
-        mv navi_repo/target/x86_64-apple-darwin/debug/navi bins/navi_macos
+        mv navi_repo/target/x86_64-apple-darwin/debug/navi bins/navi-macos
     elif [ "$os" == "windows" ]; then
-        mv navi_repo/target/x86_64-pc-windows-gnu/debug/navi.exe bins/navi_windows.exe
+        mv navi_repo/target/x86_64-pc-windows-gnu/debug/navi.exe bins/navi-windows.exe
     fi
 done
 
