@@ -95,20 +95,25 @@ if [ $INSTALL -eq 1 ]; then
         echo ""
     fi
 
-    # Create installation directory
-    mkdir -p $INSTALL_DIR
-  
+    git clone https://github.com/mifraburneo/brbr "$INSTALL_DIR"
+
     # Install fzf
     git clone --depth 1 https://github.com/junegunn/fzf.git "$INSTALL_DIR/fzf"
     /bin/bash "$INSTALL_DIR/fzf/install" --bin
     # Create symbolic link
-    ln -s "$INSTALL_DIR/bin/fzf" "$BIN_DIR/fzf"
+    ln -s "$INSTALL_DIR/fzf/bin/fzf" "$BIN_DIR/fzf"
 
-    # Get custom navi depending on OS:
     # Linux
     if [ "$(uname)" == "Linux" ]; then
-    # Download bin file with curl
-    https://raw.githubusercontent.com/mifraburneo/brbr/installation/navi_repo/bins/navi-linux -o "$INSTALL_DIR/navi/bin/navi"
+    mkdir -p "$INSTALL_DIR/navi/bin"
+    cp bins/navi-linux "$INSTALL_DIR/navi/bin/navi"
+    
+    # Create symbolic link
+    ln -s "$INSTALL_DIR/navi/bin/navi" "$BIN_DIR/brbr"
+    fi
+
+fi
+    
 
 
     
