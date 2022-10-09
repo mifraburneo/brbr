@@ -28,7 +28,7 @@ done
 
 
 # Install
-if [ $INSTALL -eq "1" ]; then
+if [[ $INSTALL -eq "1" ]]; then
 
     # Check if the directory already exists
     if [ -d "$INSTALL_DIR" ]; then
