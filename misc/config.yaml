@@ -4,13 +4,14 @@ style:
     width_percentage: 20 # column width relative to the terminal window
   comment:
     color: blue
-    width_percentage: 79
+    width_percentage: 80
 #    min_width: 45
   snippet:
     color: white
     width_percentage: 0
+    min_width: 0
 
 finder:
 #  command: fzf # equivalent to the --finder option
-  overrides: --with-nth 2,1 --preview-window=up,20%,wrap --layout=reverse --color=fg+:#FF0000 --color=bg+:#FF0000 # (ex --height 50% --nth 1,2)
+  overrides: --with-nth 2,1 --nth 2,1 --preview-window=up,20%,wrap --layout=reverse --color=fg+:#FF0000 --color=bg+:#FF0000 # (ex --height 50% --nth 1,2)
   overrides_var: --layout=reverse # for the variable selection screen (ex --height 50%)
