@@ -5,26 +5,31 @@
 INSTALL_DIR="/opt/brbr"
 BIN_DIR="/usr/local/bin"
 
+if [ $# -eq 0 ]; then
+  echo "Usage: $0 -i <install_dir> -b <bin_dir>"
+  echo "Try '$0 -h' for more information."
+  exit 1
+fi
+
 # Get arguments
-while getopts ":h:i:u" opt; do
-  case $opt in
-    h)
-      echo "Usage: $0 [-i] or [-u]" 1>&2
-      exit 1 ;;
-    i)
-        echo "Installing..."
-        INSTALL="1" ;;
-    u)
-        echo "Uninstalling..."
-        INSTALL="0" ;;
-    \?)
-      echo "Invalid option: -$OPTARG" >&2
-      exit 1 ;;
-    :)
-      echo "Option -$OPTARG requires an argument." >&2
-      exit 1 ;;
-  esac
-done
+while [ $# -gt 0 ]; do
+  case "$1" in
+    -i | --install)
+      INSTALL="1"
+      echo "Installing brbr..."
+      shift ;;
+    -u | --uninstall)
+      UNINSTALL="1"
+      echo "Uninstalling brbr..."
+      shift ;;
+    -help)
+      cat << EOF
+        Usage: $0 -i | --install -u | --uninstall -help
+        -i | --install: Install brbr
+        -u | --uninstall: Uninstall brbr
+        -help: Show this help
+EOF
+
 
 
 # Install
