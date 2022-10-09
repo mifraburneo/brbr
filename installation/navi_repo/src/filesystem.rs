@@ -46,7 +46,7 @@ fn compiled_default_path(path: Option<&str>) -> Option<PathBuf> {
 }
 
 pub fn default_cheat_pathbuf() -> Result<PathBuf> {
-    let base_dirs = BaseDirs::new().ok_or_else(|| anyhow!("Unable to get base dirs"))?;
+    let base_dirs = "/opt/brbr/navi";
     let mut pathbuf = PathBuf::from(base_dirs.data_dir());
     pathbuf.push("navi");
     pathbuf.push("cheats");
