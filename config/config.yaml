@@ -9,7 +9,7 @@ style:
   snippet:
     color: white
     width_percentage: 0
-    min_width: 0
+#    min_width: 0
 
 finder:
 #  command: fzf # equivalent to the --finder option
