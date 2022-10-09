@@ -117,7 +117,7 @@ if [[ $INSTALL -eq "1" ]]; then
     mkdir -p "$INSTALL_DIR/navi/bin"
     # Create sym link for cheats and config dirs
     ln -s "$INSTALL_DIR/cheats" "$INSTALL_DIR/navi/cheats"
-    ln -s "$INSTALL_DIR/config" "$INSTALL_DIR/navi/config"
+    ln -s "$INSTALL_DIR/config/config.yaml" "$INSTALL_DIR/navi/config.yaml"
 
     cp bins/navi-linux "$INSTALL_DIR/navi/bin/navi"
     chmod 754 "$INSTALL_DIR/navi/bin/navi"
