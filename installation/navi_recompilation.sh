@@ -14,8 +14,6 @@ if ! command -v cargo &> /dev/null; then
         exit 3
     fi
     source "$HOME/.cargo/env"    
-    # Refresh shell for path
-    exec "$SHELL"
 fi
     echo ""
 
