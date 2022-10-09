@@ -9,12 +9,12 @@ BIN_DIR="/usr/local/bin"
 while getopts ":h:i:u" opt; do
   case $opt in
     h)
-      echo "Usage: $0 [exec] or [uninstall]" 1>&2
+      echo "Usage: $0 [-i] or [-u]" 1>&2
       exit 1 ;;
-    exec)
+    i)
         echo "Installing..."
         INSTALL="1" ;;
-    uninstall)
+    u)
         echo "Uninstalling..."
         INSTALL="0" ;;
     \?)
