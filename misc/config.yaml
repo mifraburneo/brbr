@@ -1,0 +1,17 @@
+style:
+  tag:
+    color: cyan # text color. possible values: https://bit.ly/3gloNNI
+    width_percentage: 17 # column width relative to the terminal window
+#    min_width: 20 # minimum column width as number of characters
+  comment:
+    color: blue
+    width_percentage: 45
+#    min_width: 45
+  snippet:
+    color: white
+    width_percentage: 38
+
+finder:
+#  command: fzf # equivalent to the --finder option
+  overrides: --height 3 # equivalent to the --fzf-overrides option
+  overrides_var: --height 3 # equivalent to the --fzf-overrides-var option
