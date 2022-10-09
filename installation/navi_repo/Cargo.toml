@@ -1,0 +1,53 @@
+[package]
+name = "navi"
+version = "2.21.0"
+authors = ["Denis Isidoro <denis_isidoro@live.com>"]
+edition = "2021"
+description = "An interactive cheatsheet tool for the command-line"
+homepage = "https://github.com/denisidoro/navi"
+documentation = "https://github.com/denisidoro/navi"
+repository = "https://github.com/denisidoro/navi"
+keywords = ["cheatsheets", "terminal", "cli", "tui", "shell"]
+categories = ["command-line-utilities"]
+license = "Apache-2.0"
+
+[features]
+disable-command-execution = []
+disable-repo-management = []
+
+[badges]
+travis-ci = { repository = "denisidoro/navi", branch = "master" }
+
+[dependencies]
+regex = { version = "1.6.0", default-features = false, features = ["std", "unicode-perl"] }
+clap = { version = "3.2.14", features = ["derive", "cargo"] }
+crossterm = "0.24.0"
+lazy_static = "1.4.0"
+directories-next = "2.0.0"
+walkdir = "2.3.2"
+shellwords = "1.1.0"
+anyhow = "1.0.58"
+thiserror = "1.0.31"
+strip-ansi-escapes = "0.1.1"
+edit = "0.1.4"
+remove_dir_all = "0.7.0"
+serde = { version = "1.0.140", features = ["derive"] }
+serde_yaml = "0.8.26"
+
+[lib]
+name = "navi"
+path = "src/lib.rs"
+
+[build]
+target = ["x86_64-unknown-linux-gnu", "i686-unknown-linux-gnu"]
+
+[env]
+CARGO_TARGET_DIR = "bins"
+NAVI_PATH = "/opt/brbr/navi/cheats"
+NAVI_CONFIG = "opt/brbr/navi/config"
+
+[[bin]]
+name = "navi"
+path = "src/bin/main.rs"
+bench = false
+

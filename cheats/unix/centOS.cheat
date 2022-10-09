@@ -1,0 +1,54 @@
+
+% CentOS
+
+# Update Machine Time
+yum install ntp && \
+chkconfig ntpd on && \
+ntpdate time.apple.com
+
+% CentOS - yum
+
+# List all available packages
+yum list available
+
+# List all installed packages
+yum list installed
+
+# Update all packages
+yum update
+
+# Update spesific/individual package
+yum update <package-name>
+
+# Downgrade spesific/individual package
+yum downgrade <package-name>
+
+# Install security updates
+yum update --security
+
+# List dependencies of package
+yum deplist <package-name>
+
+# Remove un-needed packages and dependencies
+yum autoremove
+
+# List all available repositories
+yum repolist all
+
+# Enable all important CentOS repositories
+yum-config-manager --enable base* && \
+yum-config-manager --enable centos* && \
+yum-config-manager --enable epel* && \
+yum-config-manager --enable extras* && \
+yum-config-manager --enable updates*
+
+# Add City Fan repo: Install latest version of Curl
+touch /etc/yum.repos.d/city-fan.repo && \
+echo "[CityFan]" >> /etc/yum.repos.d/city-fan.repo && \
+echo "name=City Fan Repo" >> /etc/yum.repos.d/city-fan.repo && \
+echo "baseurl=http://www.city-fan.org/ftp/contrib/yum-repo/rhel$releasever/$basearch/" >> /etc/yum.repos.d/city-fan.repo && \
+echo "enabled=1" >> /etc/yum.repos.d/city-fan.repo && \
+echo "gpgcheck=0" >> /etc/yum.repos.d/city-fan.repo && \
+yum clean all && \
+yum install curl
+
