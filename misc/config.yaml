@@ -2,7 +2,6 @@ style:
   tag:
     color: cyan # text color. possible values: https://bit.ly/3gloNNI
     width_percentage: 20 # column width relative to the terminal window
-    fg=: white
   comment:
     color: blue
     width_percentage: 79
@@ -13,5 +12,5 @@ style:
 
 finder:
 #  command: fzf # equivalent to the --finder option
-  overrides: --with-nth 2,1 --preview-window=up,20%,wrap --layout=reverse # (ex --height 50% --nth 1,2)
+  overrides: --with-nth 2,1 --preview-window=up,20%,wrap --layout=reverse --color=bg+:#F2F0E7 # (ex --height 50% --nth 1,2)
   overrides_var: --layout=reverse # for the variable selection screen (ex --height 50%)
