@@ -115,6 +115,10 @@ if [[ $INSTALL -eq "1" ]]; then
     # Linux
     if [ "$(uname)" == "Linux" ]; then
     mkdir -p "$INSTALL_DIR/navi/bin"
+    # Create sym link for cheats and config dirs
+    ln -s "$INSTALL_DIR/cheats" "$INSTALL_DIR/navi/cheats"
+    ln -s "$INSTALL_DIR/config" "$INSTALL_DIR/navi/config"
+
     cp bins/navi-linux "$INSTALL_DIR/navi/bin/navi"
     chmod 754 "$INSTALL_DIR/navi/bin/navi"
 
@@ -132,7 +136,7 @@ fi
 if [[ $UNINSTALL -eq "1" ]]; then
 
     # Remove symbolic link
-    rm -f "$BIN_DIR/brbr"
+    rm -f "$BIN_DIR/navi"
     rm -f "$BIN_DIR/fzf"
 
     # Remove directory
