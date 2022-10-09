@@ -5,7 +5,7 @@ style:
 #    min_width: 20 # minimum column width as number of characters
   comment:
     color: blue
-    width_percentage: 80
+    width_percentage: 79
 #    min_width: 45
   snippet:
     color: white
@@ -13,5 +13,5 @@ style:
 
 finder:
 #  command: fzf # equivalent to the --finder option
-  overrides: --with-nth 2,1 --preview-window=up,20%,wrap --layout=reverse --color fg:124,bg:16,hl:202,fg+:214,bg+:52,hl+:231,info:52,prompt:196,spinner:208,pointer:196,marker:208 # (ex --height 50% --nth 1,2)
+  overrides: --with-nth 2,1 --preview-window=up,20%,wrap --layout=reverse --color fg+:#000000 # (ex --height 50% --nth 1,2)
   overrides_var: --layout=reverse # for the variable selection screen (ex --height 50%)
