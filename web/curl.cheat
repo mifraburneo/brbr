@@ -1,36 +1,36 @@
-% curl, http
+% Curl
 
-# send a get http request
+# Send a get http request
 curl <url>
 
-# send a http request
+# Send a http request
 curl -X <method> <url>
 
-# send a http request and write the output to a file
+# Send a http request and write the output to a file
 curl -X <method> <url> -o <filename>
 
-# send a get http request and follow redirects
+# Send a get http request and follow redirects
 curl -L <url>
 
-# send a get http request exit with a non-zero status code on failure
+# Send a get http request exit with a non-zero status code on failure
 curl --fail <url>
 
-# send an authenticated http request
+# Send an authenticated http request
 curl -u <username>:<password> -X <method> <url>
 
-# send a http request with a json body
+# Send a http request with a json body
 curl -X <method> <url>  -H 'Content-Type: application/json' -d '<json>'
 
-# send a http request with a form body
+# Send a http request with a form body
 curl <url> -d <bodykey>=<bodyvalue>
 
-# send a http request and see the request as well as the response
+# Send a http request and see the request as well as the response
 curl -v <url>
 
-# send a http request with a body from a file
+# Send a http request with a body from a file
 curl -X <method> <url> --data-binary "@<file>"
 
-# send a http request with a custom header
+# Send a http request with a custom header
 curl -X <method> <url> -H "<headername>: <headervalue>"
 
 $ file: ls
