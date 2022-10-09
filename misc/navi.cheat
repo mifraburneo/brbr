@@ -4,6 +4,7 @@
 cd ~/.local/share/navi/cheats && \
 rm ~/.local/share/navi/cheats/cheats -rf && \
 git clone https://github.com/mifraburneo/cheats && \
+[ -d ~/.config/navi ] || mkdir -p ~/.config/navi && \
 cp cheats/misc/config.yaml ~/.config/navi/config.yaml && \
 cd -
 
