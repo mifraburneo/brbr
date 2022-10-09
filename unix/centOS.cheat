@@ -1,4 +1,4 @@
-% CentOS
+% CentOS (yum)
 
 # List all available packages
 yum list available
@@ -50,6 +50,8 @@ yum whatprovides <query>
 
 # List currently enabled repositories
 yum repolist
+
+% CentOS
 
 # Update Machine Time
 yum install ntp && \
