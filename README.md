@@ -19,8 +19,15 @@ git clone https://github.com/mifraburneo/brbr
 ##### 2. Execute installation script
 
 ```
-cd brbr/installation
+cd /opt/brbr/installation
 ./install.sh --install
 
 ```
 
+### Uninstall
+
+Uninstalling is easy and a reinstall grants the latests version of fzf.
+
+```
+cd /opt/brbr/installation
+./install.sh --uninstall
