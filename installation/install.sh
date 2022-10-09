@@ -56,19 +56,19 @@ if [[ $INSTALL -eq "1" ]]; then
             echo "OS is Linux and apt package manager is installed!"
             echo "Trying to install git..."
             apt update
-            sudo apt install git
+            sudo apt install git -y
         # If OS is Linux and package manager is yum, try to install git
         elif [ "$(uname)" == "Linux" ] && command -v yum &> /dev/null; then
             echo "OS is Linux and yum package manager is installed!"
             echo "Trying to install git..."
             yum update
-            sudo yum install git
+            sudo yum install git -y
         # If OS is MacOS and package manager is brew, try to install git
         elif [ "$(uname)" == "Darwin" ] && command -v brew &> /dev/null; then
             echo "OS is MacOS and brew package manager is installed!"
             echo "Trying to install git..."
             brew update
-            brew install git
+            brew install git -y
         # Else, exit
         else
             echo "Please install git first."
@@ -83,19 +83,19 @@ if [[ $INSTALL -eq "1" ]]; then
             echo "OS is Linux and apt package manager is installed!"
             echo "Trying to install curl..."
             apt update
-            sudo apt install curl
+            sudo apt install curl -y
         # If OS is Linux and package manager is yum, try to install curl
         elif [ "$(uname)" == "Linux" ] && command -v yum &> /dev/null; then
             echo "OS is Linux and yum package manager is installed!"
             echo "Trying to install curl..."
             yum update
-            sudo yum install curl
+            sudo yum install curl -y
         # If OS is MacOS and package manager is brew, try to install curl
         elif [ "$(uname)" == "Darwin" ] && command -v brew &> /dev/null; then
             echo "OS is MacOS and brew package manager is installed!"
             echo "Trying to install curl..."
             brew update
-            brew install curl
+            brew install curl -y
         # Else, exit
         else
             echo "Please install curl first."
