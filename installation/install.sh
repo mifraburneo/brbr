@@ -42,7 +42,7 @@ done
 if [[ $INSTALL -eq "1" ]]; then
 
     # Check if the directory already exists
-    if [ -d "$INSTALL_DIR" ]; then
+    if [ -d "$INSTALL_DIR/fzf" || -d "$INSTALL_DIR/navi" ]; then
         echo "Directory $INSTALL_DIR already exists, run uninstall [-u] first."
         echo ""
         exit 2
