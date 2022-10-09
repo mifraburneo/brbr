@@ -1,0 +1,6 @@
+% DOS2Unix
+
+# Convert all files recursively from DOS to Unix format.
+find <folder> -type f -print0 | xargs -0 dos2unix
+
+$ folder: ls -a
