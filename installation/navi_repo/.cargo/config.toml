@@ -1,4 +1,0 @@
-[env]
-CARGO_TARGET_DIR = "bins"
-NAVI_PATH = "/opt/brbr/navi/cheats"
-NAVI_CONFIG = "/opt/brbr/navi/config"

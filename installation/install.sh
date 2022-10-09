@@ -5,8 +5,6 @@
 INSTALL_DIR="/opt/brbr"
 BIN_DIR="/usr/local/bin"
 
-
-
 # Get arguments
 while getopts ":h:i:u" opt; do
   case $opt in
