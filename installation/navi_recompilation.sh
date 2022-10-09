@@ -25,3 +25,9 @@ fi
 # Compile code for Linux
 cd navi_repo
 cargo build --release
+
+
+
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+source "$HOME/.cargo/env"
+rustup target add x86_64-apple-darwin
