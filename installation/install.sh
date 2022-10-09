@@ -121,6 +121,10 @@ if [[ $INSTALL -eq "1" ]]; then
     ln -s "$INSTALL_DIR/navi/bin/navi" "$BIN_DIR/brbr"
     fi
 
+    echo ""
+    echo "Installation complete!"
+    echo "Restart your terminal to apply changes."
+    echo ""
 fi
 
 # Uninstall
@@ -132,6 +136,12 @@ if [[ $UNINSTALL -eq "1" ]]; then
 
     # Remove directory
     rm -rf "$INSTALL_DIR"
+
+    sleep 2
+    echo ""
+    echo "Uninstall complete!"
+    echo "Restart your terminal to apply changes."
+    echo ""
 fi
     
 
