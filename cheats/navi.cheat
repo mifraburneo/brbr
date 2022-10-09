@@ -1,0 +1,4 @@
+% Brbr
+
+# Update cheats repo.
+cd /opt/brbr/ && git pull && cd -
