@@ -22,15 +22,21 @@ while [ $# -gt 0 ]; do
       UNINSTALL="1"
       echo "Uninstalling brbr..."
       shift ;;
-    -help)
+    -h | --help)
       cat << EOF
         Usage: $0 -i | --install -u | --uninstall -help
         -i | --install: Install brbr
         -u | --uninstall: Uninstall brbr
         -help: Show this help
 EOF
-
-
+        exit 0 ;;
+        *)
+        echo "Invalid option: $1"
+        echo "Try '$0 -h' for more information."
+        exit 1 ;;
+    esac
+    shift
+done
 
 # Install
 if [[ $INSTALL -eq "1" ]]; then
