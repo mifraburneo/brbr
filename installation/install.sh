@@ -52,7 +52,6 @@ if [[ $INSTALL -eq "1" ]]; then
             echo "Trying to install git..."
             yum update
             sudo yum install git
-        fi
         # If OS is MacOS and package manager is brew, try to install git
         elif [ "$(uname)" == "Darwin" ] && command -v brew &> /dev/null; then
             echo "OS is MacOS and brew package manager is installed!"
@@ -80,7 +79,6 @@ if [[ $INSTALL -eq "1" ]]; then
             echo "Trying to install curl..."
             yum update
             sudo yum install curl
-        fi
         # If OS is MacOS and package manager is brew, try to install curl
         elif [ "$(uname)" == "Darwin" ] && command -v brew &> /dev/null; then
             echo "OS is MacOS and brew package manager is installed!"
