@@ -5,6 +5,9 @@
 INSTALL_DIR="/opt/brbr"
 BIN_DIR="/usr/local/bin"
 
+INSTALL="0"
+UNINSTALL="0"
+
 if [ $# -eq 0 ]; then
   echo "Usage: $0 -i OR $0 -u"
   echo "Try '$0 -h' for more information."
@@ -106,7 +109,7 @@ if [ $INSTALL = "1" ]; then
     ln -s "$INSTALL_DIR/fzf/bin/fzf" "$BIN_DIR/fzf"
 
     # Linux
-    if [ "$(uname)" == "Linux" ]; then
+    if [ "$(uname)" = "Linux" ]; then
     mkdir -p "$INSTALL_DIR/navi/bin"
 
     cp bins/navi-linux "$INSTALL_DIR/navi/bin/navi"
@@ -120,6 +123,7 @@ if [ $INSTALL = "1" ]; then
     echo "Installation complete!"
     echo "Restart your terminal to apply changes."
     echo ""
+    exit 0
 fi
 
 ############################################
@@ -140,6 +144,7 @@ if [ $UNINSTALL = "1" ]; then
     echo "Uninstall complete!"
     echo "Restart your terminal to apply changes."
     echo ""
+    exit 0
 fi
     
 
