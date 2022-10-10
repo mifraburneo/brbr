@@ -17,10 +17,10 @@ yum list installed
 # Update all packages
 yum update
 
-# Update spesific/individual package
+# Update specific/individual package
 yum update <package-name>
 
-# Downgrade spesific/individual package
+# Downgrade specific/individual package
 yum downgrade <package-name>
 
 # Install security updates
