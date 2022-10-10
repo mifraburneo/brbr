@@ -32,7 +32,7 @@ done
 ################ Install ###################
 ############################################
 
-if [[ $INSTALL -eq "1" ]]; then
+if [ $INSTALL -eq "1" ]; then
 
     # Check if the directory already exists
     if [ -d "$INSTALL_DIR/fzf" || -d "$INSTALL_DIR/navi" ]; then
@@ -126,7 +126,7 @@ fi
 ################ Uninstall #################
 ############################################
 
-if [[ $UNINSTALL -eq "1" ]]; then
+if [ $UNINSTALL -eq "1" ]; then
 
     # Remove symbolic link
     rm -f "$BIN_DIR/brbr"

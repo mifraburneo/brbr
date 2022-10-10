@@ -20,7 +20,7 @@ git clone https://github.com/mifraburneo/brbr
 
 ```
 cd /opt/brbr/installation
-./install.sh --install
+./install.sh -i
 
 ```
 
@@ -30,4 +30,4 @@ Uninstalling is easy and a reinstall grants the latests version of fzf.
 
 ```
 cd /opt/brbr/installation
-./install.sh --uninstall
+./install.sh -u
