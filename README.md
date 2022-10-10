@@ -7,7 +7,7 @@ Created with [navi](https://github.com/denisidoro/navi) and [fzf](https://github
 
 ### Installation
 
-Currently only supports Linux.
+Currently only supports Linux and MacOS with bash.
 
 ##### 1. Clone repo
 

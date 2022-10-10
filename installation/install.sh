@@ -119,6 +119,17 @@ if [ $INSTALL = "1" ]; then
     ln -s "$INSTALL_DIR/navi/bin/navi" "$BIN_DIR/brbr"
     fi
 
+    # MacOS
+    if [ "$(uname)" = "Darwin" ]; then
+    mkdir -p "$INSTALL_DIR/navi/bin"
+
+    cp bins/navi-linux "$INSTALL_DIR/navi/bin/navi"
+    chmod 754 "$INSTALL_DIR/navi/bin/navi"
+
+    # Create symbolic link
+    ln -s "$INSTALL_DIR/navi/bin/navi" "$BIN_DIR/brbr"
+    fi
+
     echo ""
     echo "Installation complete!"
     echo "Restart your terminal to apply changes."
