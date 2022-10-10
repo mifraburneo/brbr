@@ -51,7 +51,7 @@ fi
     echo ""
 
 # If OS is Linux
-if [ "$(uname)" == "Linux" ]; then
+if [ "$(uname)" = "Linux" ]; then
     # Modifiy navi_repo/src/filesystem.rs
     sed -i 's/BaseDirs::new().ok_or_else(|| anyhow!("Unable to get base dirs"))?;/"\/opt\/brbr";/g' navi_repo/src/filesystem.rs
     sed -i 's/base_dirs.data_dir()/base_dirs/g' navi_repo/src/filesystem.rs
@@ -59,7 +59,7 @@ if [ "$(uname)" == "Linux" ]; then
     sed -i 's/pathbuf.push("config.yaml");/pathbuf.push("config\/config.yaml");/g' navi_repo/src/filesystem.rs
     sed -i 's/pathbuf.push("navi");//g' navi_repo/src/filesystem.rs
 # If OS is MacOS
-elif [ "$(uname)" == "Darwin" ]; then
+elif [ "$(uname)" = "Darwin" ]; then
     # Modifiy navi_repo/src/filesystem.rs
     sed -i '' 's/BaseDirs::new().ok_or_else(|| anyhow!("Unable to get base dirs"))?;/"\/opt\/brbr";/g' navi_repo/src/filesystem.rs
     sed -i '' 's/base_dirs.data_dir()/base_dirs/g' navi_repo/src/filesystem.rs
@@ -72,7 +72,7 @@ cd navi_repo
 
 for os in "${OS[@]}"; do
     echo "Building for $os..."
-    if [ "$os" == "linux" ]; then
+    if [ "$os" = "linux" ]; then
         rustup target add x86_64-unknown-linux-musl
         # Compile code for Linux
         cargo build --target="x86_64-unknown-linux-musl"
@@ -82,7 +82,7 @@ for os in "${OS[@]}"; do
             echo "Compilation for Linux failed!"
             exit 10
         fi
-    elif [ "$os" == "macos" ]; then
+    elif [ "$os" = "macos" ]; then
         rustup target add x86_64-apple-darwin
         # Compile code for MacOS
         cargo build --target="x86_64-apple-darwin"
@@ -92,7 +92,7 @@ for os in "${OS[@]}"; do
             echo "Compilation for MacOS failed!"
             exit 11
         fi
-    elif [ "$os" == "windows" ]; then
+    elif [ "$os" = "windows" ]; then
         rustup target add x86_64-pc-windows-gnu
         # Compile code for Windows
         cargo build --target="x86_64-pc-windows-gnu"
@@ -114,13 +114,13 @@ rm -rf bins
 mkdir bins
 
 for os in "${OS[@]}"; do
-    if [ "$os" == "linux" ]; then
+    if [ "$os" = "linux" ]; then
         mv navi_repo/target/x86_64-unknown-linux-musl/debug/navi bins/navi-linux
         chmod 770 bins/navi-linux
-    elif [ "$os" == "macos" ]; then
+    elif [ "$os" = "macos" ]; then
         mv navi_repo/target/x86_64-apple-darwin/debug/navi bins/navi-macos
         chmod 770 bins/navi-macos
-    elif [ "$os" == "windows" ]; then
+    elif [ "$os" = "windows" ]; then
         mv navi_repo/target/x86_64-pc-windows-gnu/debug/navi.exe bins/navi-windows.exe
     fi
 done
