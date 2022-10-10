@@ -6,5 +6,9 @@ ssh -D <socks_port> -C -q -N <username>@<ip_or_server> <optional_aditional_param
 # Kill background SOCKS proxy tunnel running on port <socks_port>
 kill $(ps aux | grep "ssh -D <socks_port>" | grep -v grep | awk '{print $2}')
 
+# Custom Mifra's SOCKS proxy tunnel
+ssh -D 8050 -C -q -N <custom_server_port_key>
+
 $ socks_port: echo -e '8050\n'
 $ optional_aditional_params: echo -e '-p # Specify port\n-i # Add Key\n-f # To run in background'
+$ custom_server_port_key: echo -e 'ubuntu@mifraburneo.com -i ~/master-key\nmifra@88.2.242.142 -p 22223 -i ~/.ssh/mifra-ericsson-key'
