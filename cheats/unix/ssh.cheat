@@ -3,4 +3,7 @@
 # Create SOCKS proxy tunnel
 ssh -D <socks_port> -f -C -q -N <username>@<ip_or_server> <optional_aditional_params>
 
+# Kill SOCKS proxy tunnel running on port <socks_port>
+kill $(ps aux | grep "ssh -D <socks_port>" | grep -v grep | awk '{print $2}')
+
 $ socks_port: echo -e '8050\n'
