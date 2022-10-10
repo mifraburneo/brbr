@@ -3,8 +3,8 @@
 # Create SOCKS proxy tunnel 
 ssh -D <socks_port> -C -q -N <username>@<ip_or_server> <optional_aditional_params>
 
-# Kill SOCKS proxy tunnel running on port <socks_port>
+# Kill background SOCKS proxy tunnel running on port <socks_port>
 kill $(ps aux | grep "ssh -D <socks_port>" | grep -v grep | awk '{print $2}')
 
 $ socks_port: echo -e '8050\n'
-$ optional_aditional_params: echo -e '-p\n-i\n-f # To run in background'
+$ optional_aditional_params: echo -e '-p # Specify port\n-i # Add Key\n-f # To run in background'
