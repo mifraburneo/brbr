@@ -1,4 +1,4 @@
-$ SSH
+% SSH
 
 # Create SOCKS proxy tunnel
 ssh -D <socks_port> -f -C -q -N <username>@<ip/server> <optional_aditional_params>
