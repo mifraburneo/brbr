@@ -45,19 +45,19 @@ if [ $INSTALL = "1" ]; then
     if ! command -v git &> /dev/null; then
         echo "Git could not be found, please install it first."
         # If OS is Linux and package manager is apt, try to install git
-        if [ "$(uname)" == "Linux" ] && command -v apt &> /dev/null; then
+        if [ "$(uname)" = "Linux" ] && command -v apt &> /dev/null; then
             echo "OS is Linux and apt package manager is installed!"
             echo "Trying to install git..."
             apt update
             sudo apt install git -y
         # If OS is Linux and package manager is yum, try to install git
-        elif [ "$(uname)" == "Linux" ] && command -v yum &> /dev/null; then
+        elif [ "$(uname)" = "Linux" ] && command -v yum &> /dev/null; then
             echo "OS is Linux and yum package manager is installed!"
             echo "Trying to install git..."
             yum update
             sudo yum install git -y
         # If OS is MacOS and package manager is brew, try to install git
-        elif [ "$(uname)" == "Darwin" ] && command -v brew &> /dev/null; then
+        elif [ "$(uname)" = "Darwin" ] && command -v brew &> /dev/null; then
             echo "OS is MacOS and brew package manager is installed!"
             echo "Trying to install git..."
             brew update
@@ -72,19 +72,19 @@ if [ $INSTALL = "1" ]; then
     if ! command -v curl &> /dev/null; then
         echo "Curl could not be found, please install it first."
         # If OS is Linux and package manager is apt, try to install curl
-        if [ "$(uname)" == "Linux" ] && command -v apt &> /dev/null; then
+        if [ "$(uname)" = "Linux" ] && command -v apt &> /dev/null; then
             echo "OS is Linux and apt package manager is installed!"
             echo "Trying to install curl..."
             apt update
             sudo apt install curl -y
         # If OS is Linux and package manager is yum, try to install curl
-        elif [ "$(uname)" == "Linux" ] && command -v yum &> /dev/null; then
+        elif [ "$(uname)" = "Linux" ] && command -v yum &> /dev/null; then
             echo "OS is Linux and yum package manager is installed!"
             echo "Trying to install curl..."
             yum update
             sudo yum install curl -y
         # If OS is MacOS and package manager is brew, try to install curl
-        elif [ "$(uname)" == "Darwin" ] && command -v brew &> /dev/null; then
+        elif [ "$(uname)" = "Darwin" ] && command -v brew &> /dev/null; then
             echo "OS is MacOS and brew package manager is installed!"
             echo "Trying to install curl..."
             brew update
