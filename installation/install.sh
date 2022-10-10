@@ -123,7 +123,7 @@ if [ $INSTALL = "1" ]; then
     if [ "$(uname)" = "Darwin" ]; then
     mkdir -p "$INSTALL_DIR/navi/bin"
 
-    cp bins/navi-linux "$INSTALL_DIR/navi/bin/navi"
+    cp bins/navi-macos "$INSTALL_DIR/navi/bin/navi"
     chmod 754 "$INSTALL_DIR/navi/bin/navi"
 
     # Create symbolic link
