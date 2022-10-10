@@ -6,39 +6,32 @@ INSTALL_DIR="/opt/brbr"
 BIN_DIR="/usr/local/bin"
 
 if [ $# -eq 0 ]; then
-  echo "Usage: $0 -i <install_dir> -b <bin_dir>"
+  echo "Usage: $0 -i OR $0 -u"
   echo "Try '$0 -h' for more information."
   exit 1
 fi
 
 # Get arguments
-while [ $# -gt 0 ]; do
-  case "$1" in
-    -i | --install)
-      INSTALL="1"
-      echo "Installing brbr..."
-      shift ;;
-    -u | --uninstall)
-      UNINSTALL="1"
-      echo "Uninstalling brbr..."
-      shift ;;
-    -h | --help)
-      cat << EOF
-        Usage: $0 -i | --install -u | --uninstall -help
-        -i | --install: Install brbr
-        -u | --uninstall: Uninstall brbr
-        -help: Show this help
+while getopts "iuh" flag; do
+    case $flag in
+        i) INSTALL="1"
+        echo "Installing brbr..." ;;
+        u) UNINSTALL="1"
+        echo "Uninstalling brbr..." ;;
+        h) cat << EOF
+        Usage: $0 -i OR -u OR -h
+        -i: Install brbr
+        -u: Uninstall brbr
+        -h: Show this help
 EOF
         exit 0 ;;
-        *)
-        echo "Invalid option: $1"
-        echo "Try '$0 -h' for more information."
-        exit 1 ;;
     esac
-    shift
 done
 
-# Install
+############################################
+################ Install ###################
+############################################
+
 if [[ $INSTALL -eq "1" ]]; then
 
     # Check if the directory already exists
@@ -129,7 +122,10 @@ if [[ $INSTALL -eq "1" ]]; then
     echo ""
 fi
 
-# Uninstall
+############################################
+################ Uninstall #################
+############################################
+
 if [[ $UNINSTALL -eq "1" ]]; then
 
     # Remove symbolic link
