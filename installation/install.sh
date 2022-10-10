@@ -100,8 +100,6 @@ if [ $INSTALL = "1" ]; then
         echo ""
     fi
 
-    git clone https://github.com/mifraburneo/brbr "$INSTALL_DIR"
-
     # Install fzf
     git clone --depth 1 https://github.com/junegunn/fzf.git "$INSTALL_DIR/fzf"
     /bin/bash "$INSTALL_DIR/fzf/install" --bin
