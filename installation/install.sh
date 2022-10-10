@@ -72,7 +72,7 @@ if [ $INSTALL = "1" ]; then
         fi
         echo ""
     fi
-    if ! command -v curl &> /dev/null; then
+    if (! command -v curl &> /dev/null); then
         echo "Curl could not be found, please install it first."
         # If OS is Linux and package manager is apt, try to install curl
         if [ "$(uname)" = "Linux" ] && command -v apt &> /dev/null; then
