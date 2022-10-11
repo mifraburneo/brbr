@@ -1,0 +1,12 @@
+% Shell
+
+# Find the current line number from string
+awk '/<text_to_find>/{ print NR; exit }' <file>
+
+# Comment out text in a file from a line number range
+sed -i '<first_line_number>,<last_line_number>s/^/<replacement_text>/g' <file>
+
+# Replace text in a file from a string
+sed -i 's/<text_to_find>/<replacement_text>/g' <file>
+
+$ file: ls
