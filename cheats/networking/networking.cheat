@@ -5,6 +5,9 @@ lsof -i :<port> \
    | awk '{l=$2} END {print l}' \
    | xargs kill
 
+# List all services running on a given port
+lsof -i :<port>
+
 # List IP addresses connected on a given port
 netstat -tn 2>/dev/null \
    | grep :<port> \
