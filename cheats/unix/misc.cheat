@@ -2,3 +2,10 @@
 
 # Create a QR code with some content
 echo <content> | curl -F-=\<- qrenco.de
+
+% GPG
+# Encrypt a file with GPG
+gpg -c --armor --cipher-algo AES256 --no-symkey-cache <file_to_be_encrypted>
+
+# Decrypt a file with GPG
+gpg --decrypt --no-symkey-cache --output <output_file> <encrypted_file>
