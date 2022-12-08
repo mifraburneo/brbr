@@ -14,4 +14,4 @@ gpg --decrypt --no-symkey-cache --output <output_file> <input_file>
 # Convert FLAC to ALAC
 ffmpeg -i <input_file> -acodec alac <output_file>
 
-$ input_file: ls -la --- --column 9
+$ input_file: ls -a
