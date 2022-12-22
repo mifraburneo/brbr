@@ -5,15 +5,16 @@ echo <content> | curl -F-=\<- qrenco.de
 
 % GPG
 # Encrypt a file with GPG
-gpg -c --armor --cipher-algo AES256 --no-symkey-cache "<input_file>"
+gpg -c --armor --cipher-algo AES256 <symkey-cache> '<input_file>'
 
 # Decrypt a file with GPG
-gpg --decrypt --no-symkey-cache --output "<output_file>" "<input_file>"
+gpg --decrypt <symkey-cache> --output '<output_file>' '<input_file>'
 
+$ symkey-cache: echo -e '--no-symkey-cache\n'
 $ input_file: ls -a
 
 % FFmpeg
 # Convert FLAC to ALAC
-ffmpeg -i "<input_file>" -acodec alac "<output_file_name>.m4a"
+ffmpeg -i '<input_file>' -acodec alac '<output_file_name>.m4a'
 
 $ input_file: ls -a
