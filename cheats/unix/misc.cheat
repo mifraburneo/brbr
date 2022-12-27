@@ -18,3 +18,19 @@ $ input_file: ls -a
 ffmpeg -i '<input_file>' -acodec alac '<output_file_name>.m4a'
 
 $ input_file: ls -a
+
+% Permission management with ACL
+
+# Set permissions on a file for specific users
+setfacl -m u:<user>:<permissions> <file> <recursive>
+
+# Set permissions on a file for specific groups
+setfacl -m g:<group>:<permissions> <file> <recursive>
+
+# Get full permissions on a file
+
+getfacl <file>
+
+$ permissions: echo -e 'r--\nrw-\nr-x\nrwx\n---\n'
+$ recursive: echo -e '-R\n'
+$ file: ls -a
