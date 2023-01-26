@@ -3,7 +3,7 @@
 
 # Default values
 INSTALL_DIR="/opt/brbr"
-BIN_DIR="/bin"
+BIN_DIR="/usr/bin"
 
 INSTALL="0"
 UNINSTALL="0"
