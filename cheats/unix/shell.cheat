@@ -1,5 +1,8 @@
 % Shell
 
+# Kill several processes at a time
+kill -9 `ps aux | grep "<keyword>" | grep -v grep | awk '{print $2}'`
+
 # Find the current line number from string
 awk '/<text_to_find>/{ print NR; exit }' <file>
 
