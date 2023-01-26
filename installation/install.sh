@@ -103,9 +103,6 @@ if [ $INSTALL = "1" ]; then
         echo ""
     fi
 
-    # Ask for main username
-    read -p "Enter your main username: " USERNAME
-    echo ""
 
     # Install fzf
     git clone --depth 1 https://github.com/junegunn/fzf.git "$INSTALL_DIR/fzf"
@@ -135,10 +132,16 @@ if [ $INSTALL = "1" ]; then
     ln -s "$INSTALL_DIR/navi/bin/navi" "$BIN_DIR/brbr"
     fi
 
-    # add username to be able to run navi and fzf
+    # Ask for main username, if provided add username to be able to run brbr
+    echo ""
+    echo "If you want to be able to run brbr without sudo, enter your main username, otherwise press enter and only root will be able to run brbr."
+    echo ""
+    read -p "Enter your main username: " USERNAME
+    if [ -n "$USERNAME" ]; then
     chmod +a "$USERNAME allow execute" "$INSTALL_DIR/navi/bin/navi"
     chmod +a "$USERNAME allow execute" "$INSTALL_DIR/fzf/bin/fzf"
-    
+    fi
+
     echo ""
     echo "Installation complete!"
     echo "Restart your terminal to apply changes."
