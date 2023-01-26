@@ -3,7 +3,8 @@
 
 # Default values
 INSTALL_DIR="/opt/brbr"
-BIN_DIR="/usr/bin"
+if [ "$(uname)" = "Linux" ]; then BIN_DIR="/usr/bin" ; fi
+if [ "$(uname)" = "Darwin" ]; then BIN_DIR="/usr/local/bin" ; fi
 
 INSTALL="0"
 UNINSTALL="0"
@@ -112,7 +113,7 @@ if [ $INSTALL = "1" ]; then
     # Create symbolic link
     ln -s "$INSTALL_DIR/fzf/bin/fzf" "$BIN_DIR/fzf"
 
-    # Linux
+    ############# Linux
     if [ "$(uname)" = "Linux" ]; then
     mkdir -p "$INSTALL_DIR/navi/bin"
 
@@ -123,7 +124,7 @@ if [ $INSTALL = "1" ]; then
     ln -s "$INSTALL_DIR/navi/bin/navi" "$BIN_DIR/brbr"
     fi
 
-    # MacOS
+    ############# MacOS
     if [ "$(uname)" = "Darwin" ]; then
     mkdir -p "$INSTALL_DIR/navi/bin"
 
@@ -134,10 +135,10 @@ if [ $INSTALL = "1" ]; then
     ln -s "$INSTALL_DIR/navi/bin/navi" "$BIN_DIR/brbr"
     fi
 
-    # Setfacl for username to execute navi and fzf and brbr
-    setfacl -m u:$USERNAME:rx "$INSTALL_DIR/navi/bin/navi"
-    setfacl -m u:$USERNAME:rx "$INSTALL_DIR/fzf/bin/fzf"
-
+    # add username to be able to run navi and fzf
+    chmod +a "$USERNAME allow execute" "$INSTALL_DIR/navi/bin/navi"
+    chmod +a "$USERNAME allow execute" "$INSTALL_DIR/fzf/bin/fzf"
+    
     echo ""
     echo "Installation complete!"
     echo "Restart your terminal to apply changes."
