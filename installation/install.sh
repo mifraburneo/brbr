@@ -1,9 +1,9 @@
-#/bin/bash
+#!/bin/bash
 # Path: cheats/installation/install.sh
 
 # Default values
 INSTALL_DIR="/opt/brbr"
-BIN_DIR="/usr/local/bin"
+BIN_DIR="/bin"
 
 INSTALL="0"
 UNINSTALL="0"
@@ -102,6 +102,10 @@ if [ $INSTALL = "1" ]; then
         echo ""
     fi
 
+    # Ask for main username
+    read -p "Enter your main username: " USERNAME
+    echo ""
+
     # Install fzf
     git clone --depth 1 https://github.com/junegunn/fzf.git "$INSTALL_DIR/fzf"
     /bin/bash "$INSTALL_DIR/fzf/install" --bin
@@ -129,6 +133,10 @@ if [ $INSTALL = "1" ]; then
     # Create symbolic link
     ln -s "$INSTALL_DIR/navi/bin/navi" "$BIN_DIR/brbr"
     fi
+
+    # Setfacl for username to execute navi and fzf and brbr
+    setfacl -m u:$USERNAME:rx "$INSTALL_DIR/navi/bin/navi"
+    setfacl -m u:$USERNAME:rx "$INSTALL_DIR/fzf/bin/fzf"
 
     echo ""
     echo "Installation complete!"
