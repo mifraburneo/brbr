@@ -13,3 +13,4 @@ sed -i '<first_line_number>,<last_line_number>s/^/<replacement_text>/g' <file>
 sed -i 's/<text_to_find>/<replacement_text>/g' <file>
 
 $ file: ls
+$ keyword: ps aux --- --headers 1 --column 10
