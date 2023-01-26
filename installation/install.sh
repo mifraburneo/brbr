@@ -134,9 +134,10 @@ if [ $INSTALL = "1" ]; then
 
     # Ask for main username, if provided add username to be able to run brbr
     echo ""
-    echo "If you want to be able to run brbr without sudo, enter your main username, otherwise press enter and only root will be able to run brbr."
-    echo ""
-    read -p "Enter your main username: " USERNAME
+    echo "################################################################################"
+    echo "If you want to be able to run brbr without sudo, enter your main username."
+    read -p "Otherwise press enter and only root will be able to run brbr... " USERNAME
+
     if [ -n "$USERNAME" ]; then
     chmod +a "$USERNAME allow execute" "$INSTALL_DIR/navi/bin/navi"
     chmod +a "$USERNAME allow execute" "$INSTALL_DIR/fzf/bin/fzf"
