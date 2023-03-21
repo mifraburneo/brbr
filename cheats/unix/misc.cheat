@@ -28,8 +28,10 @@ setfacl -m u:<user>:<permissions> <file> <recursive>
 setfacl -m g:<group>:<permissions> <file> <recursive>
 
 # Get full permissions on a file
-
 getfacl <file>
+
+# Create symlink
+ln -s <target> <link>
 
 $ permissions: echo -e 'r--\nrw-\nr-x\nrwx\n---\n'
 $ recursive: echo -e '-R\n'
