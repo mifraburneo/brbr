@@ -18,5 +18,8 @@ netstat -tn 2>/dev/null \
    | sort -nr \
    | head
 
+# List all ports in use
+netstat -tulpn | grep LISTEN
+
 # Find external, public IP address
 dig +short myip.opendns.com @resolver1.opendns.com
