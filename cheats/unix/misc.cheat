@@ -30,6 +30,14 @@ setfacl -m g:<group>:<permissions> <file> <recursive>
 # Get full permissions on a file
 getfacl <file>
 
+% General commands
+
+# find files by name 
+find . -name <file_name>
+
+# find files by content
+grep --include=*.<extension> -rnw '<directory>' -e '<content>'
+
 # Create symlink
 ln -s <target> <link>
 
