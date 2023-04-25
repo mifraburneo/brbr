@@ -32,6 +32,12 @@ getfacl <file>
 
 % General commands
 
+# Count the number of files in a directory
+ls -1 | wc -l
+
+# Get all the sizes of directories folowing a pattern in the current directory (efficiently)
+ls -p | grep <pattern> | xargs du -sh
+
 # find files by name 
 find . -name <file_name>
 
