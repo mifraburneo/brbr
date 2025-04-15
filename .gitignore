@@ -1,10 +1,13 @@
 # Build artifacts
 build/
 
-# Private data
-private/*
-!private/.gitignore
-!private/cheats/.gitkeep
+# Private data - created at runtime
+/private/
+
+# Encrypted cheats directory - contains user content
+# But keep the directory itself
+/encrypted-cheats/*
+!/encrypted-cheats/.gitkeep
 
 # Session data
 .session_token
@@ -13,3 +16,6 @@ private/*
 # OS-specific files
 .DS_Store
 Thumbs.db
+
+# Temporary files
+/tmp/

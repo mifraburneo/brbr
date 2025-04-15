@@ -275,7 +275,6 @@ encrypt_new_cheat() {
 
 update_brbr() {
     echo "Updating BrBr..."
-    cd "$BRBR_ROOT"
     
     # Since this is a system-wide installation, we need to check for write permissions
     if [ ! -w "$BRBR_ROOT" ]; then
@@ -284,17 +283,70 @@ update_brbr() {
         exit 1
     fi
     
-    # Fetch updates
-    git fetch --all
+    # Create a temporary directory for the update
+    local UPDATE_DIR="$TEMP_DIR/update"
+    mkdir -p "$UPDATE_DIR"
     
-    # Update only the cheats and config (to preserve any encrypted cheats)
-    git checkout HEAD -- "$BRBR_ROOT/cheats"
-    git checkout HEAD -- "$BRBR_ROOT/config"
+    echo "Downloading latest version..."
     
-    # Pull latest changes
-    git pull
+    # Download the latest release from GitHub
+    if ! curl -L -o "$UPDATE_DIR/brbr.tar.gz" "https://github.com/mifraburneo/brbr/archive/refs/heads/main.tar.gz"; then
+        echo "Failed to download update. Please check your internet connection."
+        return 1
+    fi
     
-    echo "BrBr updated successfully."
+    # Extract the archive
+    if ! tar -xzf "$UPDATE_DIR/brbr.tar.gz" -C "$UPDATE_DIR"; then
+        echo "Failed to extract update package."
+        return 1
+    fi
+    
+    # Find the extracted directory (should be something like "brbr-main")
+    local EXTRACTED_DIR=$(find "$UPDATE_DIR" -type d -name "brbr-*" | head -1)
+    if [ -z "$EXTRACTED_DIR" ]; then
+        echo "Update package has an unexpected structure."
+        return 1
+    fi
+    
+    echo "Backing up existing cheats..."
+    # Backup encrypted cheats
+    if [ -d "$BRBR_ROOT/encrypted-cheats" ]; then
+        mkdir -p "$TEMP_DIR/backup/encrypted-cheats"
+        cp -r "$BRBR_ROOT/encrypted-cheats"/* "$TEMP_DIR/backup/encrypted-cheats/" 2>/dev/null || true
+    fi
+    
+    # Backup private data
+    if [ -d "$BRBR_ROOT/private" ]; then
+        mkdir -p "$TEMP_DIR/backup/private"
+        cp -r "$BRBR_ROOT/private"/* "$TEMP_DIR/backup/private/" 2>/dev/null || true
+    fi
+    
+    echo "Updating files..."
+    # Copy new cheats and config
+    cp -r "$EXTRACTED_DIR/cheats" "$BRBR_ROOT/"
+    cp -r "$EXTRACTED_DIR/config" "$BRBR_ROOT/"
+    
+    # Copy new binaries if they exist in the download
+    if [ -f "$EXTRACTED_DIR/bin/brbr" ]; then
+        cp "$EXTRACTED_DIR/bin/brbr" "$BRBR_ROOT/bin/"
+        chmod +x "$BRBR_ROOT/bin/brbr"
+    fi
+    
+    # Restore backed-up files
+    if [ -d "$TEMP_DIR/backup/encrypted-cheats" ]; then
+        mkdir -p "$BRBR_ROOT/encrypted-cheats"
+        cp -r "$TEMP_DIR/backup/encrypted-cheats"/* "$BRBR_ROOT/encrypted-cheats/" 2>/dev/null || true
+    fi
+    
+    if [ -d "$TEMP_DIR/backup/private" ]; then
+        mkdir -p "$BRBR_ROOT/private"
+        cp -r "$TEMP_DIR/backup/private"/* "$BRBR_ROOT/private/" 2>/dev/null || true
+    fi
+    
+    echo "Cleaning up..."
+    rm -rf "$UPDATE_DIR"
+    
+    echo "BrBr updated successfully!"
 }
 
 # Command line arguments
