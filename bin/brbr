@@ -1,0 +1,419 @@
+#!/usr/bin/env bash
+
+set -e
+
+# Find the real path of the script, resolving any symlinks
+get_script_path() {
+    local source="${BASH_SOURCE[0]}"
+    local dir=""
+    
+    # Resolve $source until the file is no longer a symlink
+    while [ -h "$source" ]; do
+        dir="$( cd -P "$( dirname "$source" )" && pwd )"
+        source="$(readlink "$source")"
+        # If $source was a relative symlink, we need to resolve it relative to the path where the symlink file was located
+        [[ $source != /* ]] && source="$dir/$source"
+    done
+    
+    echo "$( cd -P "$( dirname "$source" )" && pwd )"
+}
+
+SCRIPT_DIR="$(get_script_path)"
+BRBR_ROOT="$(dirname "$SCRIPT_DIR")"
+NAVI_BIN="$BRBR_ROOT/bin/navi"
+CONFIG_DIR="$BRBR_ROOT/config"
+PUBLIC_CHEATS_DIR="$BRBR_ROOT/cheats"
+ENCRYPTED_CHEATS_DIR="$BRBR_ROOT/encrypted-cheats"
+TEMP_DIR="/tmp/brbr-$$"  # Use PID for unique temp directory
+PASSWORD_HASH_FILE="$BRBR_ROOT/private/.password_hash"
+SESSION_TOKEN_FILE="$BRBR_ROOT/private/.session_token"
+SESSION_TIMEOUT=3600 # 1 hour
+
+# Debug flag (set to true to enable debug output)
+DEBUG=false
+
+# Debug function
+debug() {
+    if [ "$DEBUG" = true ]; then
+        echo "[DEBUG] $1"
+    fi
+}
+
+# Debug information if binary not found
+if [ ! -f "$NAVI_BIN" ]; then
+    echo "Error: Binary not found at $NAVI_BIN"
+    echo "Current script location: $SCRIPT_DIR"
+    echo "Installation root: $BRBR_ROOT"
+    echo "Available files in bin directory:"
+    ls -la "$BRBR_ROOT/bin/" 2>/dev/null || echo "Cannot list bin directory"
+    echo ""
+    echo "Please run the installation script again."
+    exit 1
+fi
+
+# Make sure the binary is executable
+chmod +x "$NAVI_BIN" 2>/dev/null || true
+
+# Create temp directory and ensure cleanup
+mkdir -p "$TEMP_DIR"
+trap 'rm -rf "$TEMP_DIR"' EXIT
+
+# Functions
+verify_password() {
+    local password="$1"
+    local stored_hash=$(cat "$PASSWORD_HASH_FILE" 2>/dev/null || echo "")
+    
+    if [ -z "$stored_hash" ]; then
+        echo "No password has been set. Please set a password first with --set-password."
+        return 1
+    fi
+    
+    # Use sha256sum for hashing
+    local new_hash=$(echo -n "$password" | sha256sum | awk '{print $1}')
+    
+    if [ "$new_hash" = "$stored_hash" ]; then
+        return 0
+    else
+        return 1
+    fi
+}
+
+set_password() {
+    read -s -p "Enter new password for encrypted cheats: " password
+    echo
+    read -s -p "Confirm password: " password_confirm
+    echo
+    
+    if [ "$password" != "$password_confirm" ]; then
+        echo "Passwords do not match."
+        exit 1
+    fi
+    
+    if [ -z "$password" ]; then
+        echo "Password cannot be empty."
+        exit 1
+    fi
+    
+    # Hash password
+    local hash=$(echo -n "$password" | sha256sum | awk '{print $1}')
+    
+    mkdir -p "$(dirname "$PASSWORD_HASH_FILE")"
+    echo "$hash" > "$PASSWORD_HASH_FILE"
+    chmod 600 "$PASSWORD_HASH_FILE"
+    
+    echo "Password set successfully."
+    
+    # Create encrypted-cheats directory if it doesn't exist
+    mkdir -p "$ENCRYPTED_CHEATS_DIR"
+}
+
+authenticate() {
+    # Check if session token exists and is valid
+    if [ -f "$SESSION_TOKEN_FILE" ]; then
+        local token_time=$(cat "$SESSION_TOKEN_FILE")
+        local current_time=$(date +%s)
+        if [ $((current_time - token_time)) -lt "$SESSION_TIMEOUT" ]; then
+            # Update token time
+            date +%s > "$SESSION_TOKEN_FILE"
+            return 0
+        fi
+    fi
+    
+    read -s -p "Enter password for encrypted cheats: " password
+    echo
+    
+    if verify_password "$password"; then
+        # Create session token
+        mkdir -p "$(dirname "$SESSION_TOKEN_FILE")"
+        date +%s > "$SESSION_TOKEN_FILE"
+        chmod 600 "$SESSION_TOKEN_FILE"
+        
+        # Store password in session (securely)
+        echo "$password" | openssl enc -aes-256-cbc -salt -pbkdf2 -pass pass:"$password" -out "$SESSION_TOKEN_FILE.enc" 2>/dev/null
+        chmod 600 "$SESSION_TOKEN_FILE.enc"
+        
+        return 0
+    else
+        echo "Invalid password."
+        return 1
+    fi
+}
+
+get_session_password() {
+    if [ -f "$SESSION_TOKEN_FILE.enc" ]; then
+        local password
+        # Try to extract the password using itself (since it was encrypted with itself)
+        password=$(cat "$SESSION_TOKEN_FILE.enc" | openssl enc -aes-256-cbc -d -salt -pbkdf2 -pass pass:"$1" 2>/dev/null)
+        if [ $? -eq 0 ]; then
+            echo "$password"
+            return 0
+        fi
+    fi
+    return 1
+}
+
+encrypt_cheat() {
+    local input_file="$1"
+    local output_file="$2"
+    local password="$3"
+    
+    debug "Encrypting $input_file to $output_file"
+    
+    # Encrypt the file
+    if [ "$DEBUG" = true ]; then
+        openssl enc -aes-256-cbc -salt -pbkdf2 -iter 100000 -in "$input_file" -out "$output_file" -pass pass:"$password"
+    else
+        openssl enc -aes-256-cbc -salt -pbkdf2 -iter 100000 -in "$input_file" -out "$output_file" -pass pass:"$password" 2>/dev/null
+    fi
+    
+    if [ $? -eq 0 ]; then
+        echo "Encrypted: $output_file"
+        return 0
+    else
+        echo "Encryption failed for $input_file"
+        return 1
+    fi
+}
+
+decrypt_cheat() {
+    local input_file="$1"
+    local output_file="$2"
+    local password="$3"
+    
+    debug "Decrypting $input_file to $output_file"
+    
+    # Decrypt the file - capture error output for debugging
+    local error_output
+    if [ "$DEBUG" = true ]; then
+        openssl enc -aes-256-cbc -d -salt -pbkdf2 -iter 100000 -in "$input_file" -out "$output_file" -pass pass:"$password"
+    else
+        error_output=$(openssl enc -aes-256-cbc -d -salt -pbkdf2 -iter 100000 -in "$input_file" -out "$output_file" -pass pass:"$password" 2>&1)
+    fi
+    
+    if [ $? -eq 0 ]; then
+        chmod 600 "$output_file"
+        return 0
+    else
+        debug "Decryption error: $error_output"
+        return 1
+    fi
+}
+
+decrypt_cheats_to_temp() {
+    local password="$1"
+    local success=0
+    
+    # Empty temp directory first
+    rm -rf "$TEMP_DIR"/*
+    mkdir -p "$TEMP_DIR"
+    
+    # Check if any encrypted files exist
+    if ! ls "$ENCRYPTED_CHEATS_DIR"/*.enc >/dev/null 2>&1; then
+        echo "No encrypted cheat files found in $ENCRYPTED_CHEATS_DIR"
+        return 1
+    fi
+    
+    # Process each encrypted file
+    for encrypted_file in "$ENCRYPTED_CHEATS_DIR"/*.enc; do
+        debug "Processing encrypted file: $encrypted_file"
+        
+        if [ -f "$encrypted_file" ]; then
+            # Get just the filename without path or .enc extension
+            local base_name=$(basename "$encrypted_file" .enc)
+            local decrypted_file="$TEMP_DIR/$base_name"
+            
+            echo "Decrypting $base_name..."
+            if decrypt_cheat "$encrypted_file" "$decrypted_file" "$password"; then
+                success=1
+                echo "✓ Successfully decrypted $base_name"
+            else
+                echo "✗ Failed to decrypt $base_name"
+            fi
+        fi
+    done
+    
+    if [ $success -eq 0 ]; then
+        echo "Failed to decrypt any cheat files. Make sure your password is correct."
+        return 1
+    fi
+    
+    return 0
+}
+
+encrypt_new_cheat() {
+    local cheat_file="$1"
+    
+    if [ ! -f "$cheat_file" ]; then
+        echo "File not found: $cheat_file"
+        return 1
+    fi
+    
+    # Generate encrypted filename
+    local base_name=$(basename "$cheat_file")
+    local encrypted_file="$ENCRYPTED_CHEATS_DIR/$base_name.enc"
+    
+    # Get password
+    read -s -p "Enter password for encryption: " password
+    echo
+    
+    if ! verify_password "$password"; then
+        echo "Invalid password."
+        return 1
+    fi
+    
+    # Create destination directory if it doesn't exist
+    mkdir -p "$ENCRYPTED_CHEATS_DIR"
+    
+    # Encrypt the file
+    if encrypt_cheat "$cheat_file" "$encrypted_file" "$password"; then
+        echo "Cheat file encrypted and stored at: $encrypted_file"
+        return 0
+    else
+        return 1
+    fi
+}
+
+update_brbr() {
+    echo "Updating BrBr..."
+    cd "$BRBR_ROOT"
+    
+    # Since this is a system-wide installation, we need to check for write permissions
+    if [ ! -w "$BRBR_ROOT" ]; then
+        echo "You don't have permission to update BrBr. Try running with sudo:"
+        echo "sudo brbr --update"
+        exit 1
+    fi
+    
+    # Fetch updates
+    git fetch --all
+    
+    # Update only the cheats and config (to preserve any encrypted cheats)
+    git checkout HEAD -- "$BRBR_ROOT/cheats"
+    git checkout HEAD -- "$BRBR_ROOT/config"
+    
+    # Pull latest changes
+    git pull
+    
+    echo "BrBr updated successfully."
+}
+
+# Command line arguments
+case "$1" in
+    --set-password)
+        set_password
+        exit 0
+        ;;
+    --auth)
+        authenticate
+        exit 0
+        ;;
+    --encrypt)
+        if [ -z "$2" ]; then
+            echo "Usage: brbr --encrypt <cheat_file>"
+            exit 1
+        fi
+        encrypt_new_cheat "$2"
+        exit $?
+        ;;
+    --decrypt)
+        if [ -z "$2" ]; then
+            echo "Usage: brbr --decrypt <encrypted_file> [output_file]"
+            exit 1
+        fi
+        
+        output="$3"
+        if [ -z "$output" ]; then
+            # Generate output filename based on input
+            output=$(basename "$2" .enc)
+        fi
+        
+        read -s -p "Enter password for decryption: " password
+        echo
+        
+        if decrypt_cheat "$2" "$output" "$password"; then
+            echo "Decrypted to: $output"
+            exit 0
+        else
+            echo "Decryption failed."
+            exit 1
+        fi
+        ;;
+    --private)
+        if authenticate; then
+            # For --private, we should reuse the same password
+            # that was authenticated with, no need to ask twice
+            password=$(cat "$SESSION_TOKEN_FILE.enc" | openssl enc -aes-256-cbc -d -salt -pbkdf2 -pass pass:"$password" 2>/dev/null || echo "")
+            
+            if [ -z "$password" ]; then
+                # If password retrieval failed, ask again
+                read -s -p "Enter password for decryption: " password
+                echo
+            fi
+            
+            # Decrypt all encrypted cheats to temp directory
+            if decrypt_cheats_to_temp "$password"; then
+                # Use navi with both public and temp decrypted cheats
+                "$NAVI_BIN" --path "$PUBLIC_CHEATS_DIR":"$TEMP_DIR" "${@:2}"
+                exit 0
+            else
+                # Try to enable debug for more info
+                DEBUG=true
+                echo "Retrying with debug enabled..."
+                if decrypt_cheats_to_temp "$password"; then
+                    "$NAVI_BIN" --path "$PUBLIC_CHEATS_DIR":"$TEMP_DIR" "${@:2}"
+                    exit 0
+                else
+                    echo "Decryption failed even with debug enabled."
+                    exit 1
+                fi
+            fi
+        else
+            exit 1
+        fi
+        ;;
+    --debug)
+        # Add a debug option to toggle debugging
+        if [ "$2" = "on" ]; then
+            echo "Debug mode enabled"
+            DEBUG=true
+            # Save to config
+            mkdir -p "$BRBR_ROOT/private"
+            echo "true" > "$BRBR_ROOT/private/.debug"
+            exit 0
+        elif [ "$2" = "off" ]; then
+            echo "Debug mode disabled"
+            DEBUG=false
+            # Save to config
+            mkdir -p "$BRBR_ROOT/private"
+            echo "false" > "$BRBR_ROOT/private/.debug"
+            exit 0
+        else
+            echo "Usage: brbr --debug on|off"
+            exit 1
+        fi
+        ;;
+    --update)
+        update_brbr
+        exit 0
+        ;;
+    --help)
+        echo "Usage: brbr [OPTIONS]"
+        echo ""
+        echo "Options:"
+        echo "  --private         Access public and encrypted cheats (requires authentication)"
+        echo "  --set-password    Set password for encrypted cheats"
+        echo "  --auth            Authenticate for encrypted cheats"
+        echo "  --encrypt <file>  Encrypt a cheat file"
+        echo "  --decrypt <file>  Decrypt an encrypted file"
+        echo "  --update          Update BrBr to latest version"
+        echo "  --debug on|off    Enable or disable debug mode"
+        echo "  --help            Show this help message"
+        echo ""
+        echo "Without options, only public cheats will be shown."
+        exit 0
+        ;;
+    *)
+        # Use navi with only public cheats
+        "$NAVI_BIN" --path "$PUBLIC_CHEATS_DIR" "$@"
+        ;;
+esac

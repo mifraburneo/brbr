@@ -1,4 +1,4 @@
 % Brbr
 
-# Update cheats repo.
-cd /opt/brbr/ && git fetch --all && git checkout HEAD -- /opt/brbr/cheats && git checkout HEAD -- /opt/brbr/config && git pull
+# Update cheats repo
+sudo git -C /usr/local/share/brbr fetch --all && sudo git -C /usr/local/share/brbr checkout HEAD -- /usr/local/share/brbr/cheats && sudo git -C /usr/local/share/brbr checkout HEAD -- /usr/local/share/brbr/config && sudo git -C /usr/local/share/brbr pull

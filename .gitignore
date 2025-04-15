@@ -1,0 +1,15 @@
+# Build artifacts
+build/
+
+# Private data
+private/*
+!private/.gitignore
+!private/cheats/.gitkeep
+
+# Session data
+.session_token
+.password_hash
+
+# OS-specific files
+.DS_Store
+Thumbs.db
